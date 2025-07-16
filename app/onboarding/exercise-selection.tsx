@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function ExerciseSelection() {
-    const handleNext = async () => {
+    const handleNext = () => {
         router.push("./sleep-deep");
     };
 
@@ -12,12 +12,12 @@ export default function ExerciseSelection() {
         try {
             // Mark onboarding as completed even if skipped
             await AsyncStorage.setItem("hasSeenOnboarding", "true");
-            // Go to main app
-            router.replace("../home");
+            // Go to auth screen
+            router.replace("../auth");
         } catch (error) {
             console.error("Error saving onboarding status:", error);
-            // Fallback to home anyway
-            router.replace("../home");
+            // Fallback to auth anyway
+            router.replace("../auth");
         }
     };
 
