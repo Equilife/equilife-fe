@@ -10,11 +10,12 @@ export default function GetMoving() {
             // Mark onboarding as completed
             await AsyncStorage.setItem("hasSeenOnboarding", "true");
             // Go to main app
-            router.replace("../home");
+            // router.replace("../home");
+            router.replace("../auth");
         } catch (error) {
             console.error("Error saving onboarding status:", error);
             // Fallback to home anyway
-            router.replace("../home");
+            router.replace("../auth");
         }
     };
 

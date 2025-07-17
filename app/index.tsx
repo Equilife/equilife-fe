@@ -17,8 +17,8 @@ export default function SplashScreen() {
                         // First time user - show onboarding
                         router.replace("./onboarding/exercise-selection");
                     } else {
-                        // Returning user - go to main app
-                        router.replace("./home");
+                        // Returning user - go to auth screen
+                        router.replace("./auth");
                     }
                 }, 2000);
             } catch (error) {
