@@ -58,7 +58,7 @@ export default function OTPVerification() {
         if (otpValue.length === 4) {
             // TODO: Implement OTP verification logic
             console.log("OTP:", otpValue);
-            router.replace("./home");
+            router.replace("./questionnaire/name");
         }
     };
 

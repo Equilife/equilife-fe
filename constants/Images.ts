@@ -14,6 +14,12 @@ export const Icons = {
     apple: require("@/assets/images/icons/apple.png"),
 };
 
+export const FormIcon = {
+    email: require("@/assets/images/formIcons/email.png"),
+    eye: require("@/assets/images/formIcons/eye.png"),
+    password: require("@/assets/images/formIcons/password.png"),
+}
+
 export const Images = {
     // Add other images here
 };
