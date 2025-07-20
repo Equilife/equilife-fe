@@ -12,7 +12,7 @@ interface OnboardingScreenProps {
 
 export default function OnboardingScreen({ title, subtitle, illustration, onNext, showSkip = true }: OnboardingScreenProps) {
     const handleSkip = () => {
-        router.push("./exercise-selection");
+        router.replace("../auth");
     };
 
     return (
