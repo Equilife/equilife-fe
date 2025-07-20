@@ -23,6 +23,21 @@ export const FormIcon = {
     female: require("@/assets/images/formIcons/female.png"),
 }
 
+export const Dashboard = {
+    bell: require("@/assets/images/dashboard/bell.png"),
+    food: require("@/assets/images/dashboard/food.png"),
+    muscle: require("@/assets/images/dashboard/muscle.png"),
+    sleep: require("@/assets/images/dashboard/sleep.png"),
+}
+
+export const TabNavigation = {
+    food: require("@/assets/images/navbar/food.png"),
+    home: require("@/assets/images/navbar/home.png"),
+    profile: require("@/assets/images/navbar/profile.png"),
+    sleep: require("@/assets/images/navbar/sleep.png"),
+    sport: require("@/assets/images/navbar/sport.png"),
+}
+
 export const Images = {
     // Add other images here
 };
