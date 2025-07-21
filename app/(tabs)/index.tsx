@@ -6,7 +6,7 @@ import { Circle, Path, Rect, Svg, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
 
-export default function DashboardScreen() {
+export default function ProfileScreen() {
     // Mock data
     const healthScore = 81;
     const sleepData = {
@@ -366,20 +366,9 @@ export default function DashboardScreen() {
                         transform={`rotate(-90 ${size / 2} ${size / 2})`}
                     />
                 </Svg>
-
-                {/* <View className="absolute items-center">
-                    <Text className="text-4xl font-poppins-bold text-gray-800">{percentage}%</Text>
-                    <Text className="text-lg font-poppins-semibold text-gray-600">Good</Text>
-                </View> */}
             </View>
         );
     };
-
-    // Prepare nutrition chart data - removed unused variable
-    // const nutritionChartData = {
-    //   labels: nutritionData.labels,
-    //   datasets: [...]
-    // };
 
     return (
         <ScrollView className="flex-1 bg-white" showsVerticalScrollIndicator={false}>
@@ -395,7 +384,6 @@ export default function DashboardScreen() {
                     </View>
 
                     <View className="w-8 h-8 rounded-full items-center justify-center">
-                        {/* <Text className="text-lg">🔔</Text> */}
                         <Image source={Dashboard.bell} className="w-5 h-6" resizeMode="contain" />
                     </View>
                 </View>
@@ -442,7 +430,6 @@ export default function DashboardScreen() {
             <View className="mx-6 mb-6">
                 <View className="bg-[#F5FBFC] border-[1.5px] border-[#C3DFE2] rounded-3xl p-6">
                     <View className="flex-row items-center mb-4">
-                        {/* <Text className="text-2xl mr-2">💤</Text> */}
                         <Image source={Dashboard.sleep} className="w-12 h-12" resizeMode="contain" />
                         <Text className="text-lg font-poppins-semibold text-gray-800">Sleeping time</Text>
                     </View>
@@ -472,7 +459,6 @@ export default function DashboardScreen() {
                 <View className="bg-[#F5FBFC] border-[1.5px] border-[#C3DFE2] rounded-3xl p-6">
                     <View className="flex-row items-center justify-between mb-4">
                         <View className="flex-row items-center">
-                            {/* <Text className="text-2xl mr-2">🍽️</Text> */}
                             <Image source={Dashboard.food} className="w-7 h-7 mr-3" resizeMode="contain" />
                             <Text className="text-lg font-poppins-semibold text-gray-800">Nutrition</Text>
                         </View>
@@ -517,7 +503,6 @@ export default function DashboardScreen() {
             <View className="mx-6 mb-6">
                 <View className="bg-[#F5FBFC] border-[1.5px] border-[#C3DFE2] rounded-3xl p-6">
                     <View className="flex-row items-center mb-4">
-                        {/* <Text className="text-2xl mr-2">🏃</Text> */}
                         <Image source={Dashboard.muscle} className="w-7 h-7 mr-3" resizeMode="contain" />
                         <Text className="text-lg font-poppins-semibold text-gray-800">Exercise</Text>
                     </View>
@@ -543,7 +528,7 @@ export default function DashboardScreen() {
             </View>
 
             {/* Bottom spacing for navigation */}
-            <View className="h-20" />
+            <View className="h-32" />
         </ScrollView>
     );
 }

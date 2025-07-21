@@ -38,6 +38,31 @@ export const TabNavigation = {
     sport: require("@/assets/images/navbar/sport.png"),
 }
 
+export const Achievements = {
+    dreamMaster: require("@/assets/images/achievements/dream-master.png"),
+    chillChampion: require("@/assets/images/achievements/chill-champion.png"),
+    heartfulHabit: require("@/assets/images/achievements/heartful-habit.png"),
+    greenGuru: require("@/assets/images/achievements/green-guru.png"),
+    positivePioneer: require("@/assets/images/achievements/positive-pioneer.png"),
+    sleepScholar: require("@/assets/images/achievements/sleep-scholar.png"),
+    mindfulJournaler: require("@/assets/images/achievements/mindful-journaler.png"),
+    moodMessenger: require("@/assets/images/achievements/mood-messenger.png"),
+    wellnessWarrior: require("@/assets/images/achievements/wellness-warrior.png"),
+    zenListener: require("@/assets/images/achievements/zen-listener.png"),
+    sumbler: require("@/assets/images/achievements/sumbler.png"),
+    gratefullGuru: require("@/assets/images/achievements/gratefull-guru.png"),
+    // healthyHabitant: require("@/assets/images/achievements/healthy-habitant.png"),
+    // pandaPal: require("@/assets/images/achievements/panda-pal.png"),
+    // finishStrong: require("@/assets/images/achievements/finish-strong.png"),
+    locked: require("@/assets/images/achievements/locked.png")
+}
+
+export const Profile = {
+    whiteBell: require("@/assets/images/profile/bell.png")
+}
+
+
+
 export const Images = {
     // Add other images here
 };
