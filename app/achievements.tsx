@@ -140,8 +140,8 @@ export default function AchievementsScreen() {
                     </TouchableOpacity>
                 </View>
 
-                <Text className="text-3xl font-bold text-gray-900 mb-2">My Achievements</Text>
-                <Text className="text-gray-500 text-base">You have 6 achievements so far</Text>
+                <Text className="text-3xl font-poppins-bold text-gray-900 mb-2">My Achievements</Text>
+                <Text className="text-gray-500 font-poppins text-base">You have 6 achievements so far</Text>
             </View>
 
             {/* Achievements Grid */}
@@ -178,8 +178,8 @@ export default function AchievementsScreen() {
                                 </View>
 
                                 {/* Title and Status */}
-                                <Text className="text-gray-800 font-semibold text-sm text-center mb-1">{achievement.title}</Text>
-                                <Text className="text-gray-500 text-xs text-center">{achievement.status}</Text>
+                                <Text className="text-gray-800 font-poppins-semibold text-sm text-center mb-1">{achievement.title}</Text>
+                                <Text className="text-gray-500 font-poppins text-xs text-center">{achievement.status}</Text>
                             </View>
                         </View>
                     ))}

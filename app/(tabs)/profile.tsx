@@ -59,7 +59,7 @@ export default function ProfileScreen() {
                         <Image source={{ uri: "https://via.placeholder.com/60x60/8B4513/FFFFFF?text=👤" }} className="w-full h-full" resizeMode="cover" />
                     </View>
 
-                    <Text className="text-white text-lg font-medium">{getCurrentDate()}</Text>
+                    <Text className="text-white text-lg font-poppins-medium">{getCurrentDate()}</Text>
 
                     <TouchableOpacity className="w-10 h-10 rounded-full items-center justify-center">
                         {/* <Text className="text-white text-lg">🔔</Text> */}
@@ -69,7 +69,7 @@ export default function ProfileScreen() {
 
                 {/* Greeting */}
                 <View className="items-center">
-                    <Text className="text-white text-2xl font-bold">Hello, nama! 👋👋</Text>
+                    <Text className="text-white text-2xl font-poppins-bold">Hello, nama! 👋👋</Text>
                 </View>
             </View>
 
@@ -80,8 +80,8 @@ export default function ProfileScreen() {
                     <View className="flex-row items-center justify-between mb-6">
                         <View className="flex-1" />
                         <TouchableOpacity className="flex-row items-center" onPress={() => router.push("/achievements")}>
-                            <Text className="text-gray-500 text-base mr-1">For more</Text>
-                            <Text className="text-gray-500 text-lg">›</Text>
+                            <Text className="text-gray-500 font-poppins text-base mr-1">For more</Text>
+                            <Text className="text-gray-500 font-poppins text-lg">›</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -100,8 +100,8 @@ export default function ProfileScreen() {
                                 >
                                     <Image source={achievement.icon} className="w-full h-full" resizeMode="contain" />
                                 </View>
-                                <Text className="text-gray-800 font-semibold text-sm text-center mb-1">{achievement.title}</Text>
-                                <Text className="text-gray-500 text-xs text-center">{achievement.status}</Text>
+                                <Text className="text-gray-800 font-poppins-semibold text-sm text-center mb-1">{achievement.title}</Text>
+                                <Text className="text-gray-500 font-poppins text-xs text-center">{achievement.status}</Text>
                             </View>
                         ))}
                     </View>

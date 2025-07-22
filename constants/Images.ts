@@ -10,8 +10,12 @@ export const Icons = {
     logo: require("@/assets/images/icons/Logo.png"),
     logoLandscape: require("@/assets/images/icons/logo-landscape.png"),
     logoLanscapeBig: require("@/assets/images/icons/logo-landscape-big.png"),
+    circleLogo: require("@/assets/images/icons/circleLogo.png"),
     google: require("@/assets/images/icons/google.png"),
     apple: require("@/assets/images/icons/apple.png"),
+    settings: require("@/assets/images/icons/settings.png"),
+    list: require("@/assets/images/icons/list.png"),
+    box: require("@/assets/images/icons/box.png"),
 };
 
 export const FormIcon = {
@@ -28,6 +32,7 @@ export const Dashboard = {
     food: require("@/assets/images/dashboard/food.png"),
     muscle: require("@/assets/images/dashboard/muscle.png"),
     sleep: require("@/assets/images/dashboard/sleep.png"),
+    share: require("@/assets/images/dashboard/share.png"),
 }
 
 export const TabNavigation = {
@@ -61,7 +66,29 @@ export const Profile = {
     whiteBell: require("@/assets/images/profile/bell.png")
 }
 
+export const Sleep = {
+    editIcon: require("@/assets/images/sleep/editIcon.png"),
+    leftPlay: require("@/assets/images/sleep/leftPlay.png"),
+    rightPlay: require("@/assets/images/sleep/rightPlay.png"),
+    pause: require("@/assets/images/sleep/pause.png"),
+    moonStar: require("@/assets/images/sleep/moonStar.png"),
+    tidurIcon: require("@/assets/images/sleep/tidurIcon.png"),
+    wakeUpIcon: require("@/assets/images/sleep/wakeUpIcon.png"),
+    catSleep: require("@/assets/images/sleep/catSleep.png"),
+    sleepImage: require("@/assets/images/sleep/sleepImage.png"),
+    list: require("@/assets/images/icons/list.png"),
+    box: require("@/assets/images/icons/box.png"),
+    circleLogo: require("@/assets/images/icons/circleLogo.png"),
+}
 
+export const Exercise = {
+    editIcon: require("@/assets/images/exercise/editIcon.png"),
+    musle: require("@/assets/images/exercise/Muscle.png"),
+    workoutImage: require("@/assets/images/exercise/workoutImage.png"),
+    exerciseImage: require("@/assets/images/exercise/exerciseImage.png"),
+    circle: require("@/assets/images/exercise/circle.png"),
+    endWorkout: require("@/assets/images/exercise/endWorkout.png"),
+}
 
 export const Images = {
     // Add other images here

@@ -60,7 +60,7 @@ export default function HealthConditionsScreen() {
                             </View>
 
                             <View className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? "bg-white border-white" : "bg-transparent border-[#8EAE9D]"}`}>
-                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-bold">✓</Text>}
+                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-poppins-bold">✓</Text>}
                             </View>
                         </TouchableOpacity>
                     );
@@ -76,7 +76,7 @@ export default function HealthConditionsScreen() {
                     </View>
 
                     <View className={`w-6 h-6 rounded-full border-2 items-center justify-center ${selectedConditions.length === 0 ? "bg-white border-white" : "bg-transparent border-[#8EAE9D]"}`}>
-                        {selectedConditions.length === 0 && <Text className="text-[#8EAE9D] text-sm font-bold">✓</Text>}
+                        {selectedConditions.length === 0 && <Text className="text-[#8EAE9D] text-sm font-poppins-bold">✓</Text>}
                     </View>
                 </TouchableOpacity>
             </ScrollView>

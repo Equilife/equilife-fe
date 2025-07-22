@@ -1,4 +1,5 @@
 import { Dashboard } from "@/constants/Images";
+import { router } from "expo-router";
 import React from "react";
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -398,6 +399,7 @@ export default function ProfileScreen() {
                         </View>
 
                         <View className="flex-1 pl-6">
+                            {/* <Image source={Dashboard.share} className="absolute top-0 right-0 w-7 h-7 bg-blue-900" resizeMode="contain" /> */}
                             <View className="space-y-3">
                                 <View className="">
                                     <Text className="text-4xl font-poppins-bold text-gray-800">{healthScore}%</Text>
@@ -418,7 +420,7 @@ export default function ProfileScreen() {
                                 </View>
                             </View>
 
-                            <TouchableOpacity className="mt-6 bg-[#C3DFE2] px-4 py-2 rounded-full border-2 border-[#114438]">
+                            <TouchableOpacity className="mt-6 bg-[#C3DFE2] px-4 py-2 rounded-full border-2 border-[#114438]" onPress={() => router.push("/chat")}>
                                 <Text className="font-poppins text-gray-600 text-center">Ask Equilife</Text>
                             </TouchableOpacity>
                         </View>
