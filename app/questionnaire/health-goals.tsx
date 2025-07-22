@@ -62,7 +62,7 @@ export default function HealthGoalsScreen() {
                             </View>
 
                             <View className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? "bg-white border-white" : "bg-transparent border-[#8EAE9D]"}`}>
-                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-bold">✓</Text>}
+                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-poppins-bold">✓</Text>}
                             </View>
                         </TouchableOpacity>
                     );

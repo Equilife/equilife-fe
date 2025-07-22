@@ -86,7 +86,7 @@ export default function PreferencesScreen() {
                             </View>
 
                             <View className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? "bg-white border-white" : "bg-transparent border-[#8EAE9D]"}`}>
-                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-bold">✓</Text>}
+                                {isSelected && <Text className="text-[#8EAE9D] text-sm font-poppins-bold">✓</Text>}
                             </View>
                         </TouchableOpacity>
                     );
@@ -103,7 +103,7 @@ export default function PreferencesScreen() {
                             <View key={item.id} className="bg-white border border-[#8EAE9D] rounded-full px-4 py-2 mr-2 mb-2 flex-row items-center">
                                 <Text className="font-poppins text-gray-700 mr-2">{item.title}</Text>
                                 <TouchableOpacity onPress={() => removePreference(item.id)}>
-                                    <Text className="text-gray-500 font-bold">×</Text>
+                                    <Text className="text-gray-500 font-poppins-bold">×</Text>
                                 </TouchableOpacity>
                             </View>
                         ))}
