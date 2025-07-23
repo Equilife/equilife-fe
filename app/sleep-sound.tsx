@@ -101,7 +101,7 @@ export default function SleepSoundScreen() {
     // };
 
     return (
-        <ScrollView className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+        <ScrollView className="flex-1 bg-[#F5FBFC]" style={{ paddingTop: insets.top }}>
             {/* Header */}
             <View className="px-6 py-4 flex-row items-center justify-between">
                 <TouchableOpacity onPress={() => router.back()} className="p-2">

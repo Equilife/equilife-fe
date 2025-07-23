@@ -101,7 +101,7 @@ export default function SleepAnalysisScreen() {
     };
 
     return (
-        <ScrollView className="flex-1 bg-gray-50" style={{ paddingTop: insets.top }}>
+        <ScrollView className="flex-1 bg-[#F5FBFC]" style={{ paddingTop: insets.top }}>
             {/* Header */}
             <View className="px-6 py-4 flex-row items-center justify-between">
                 <TouchableOpacity onPress={() => router.back()} className="p-2">
@@ -116,7 +116,7 @@ export default function SleepAnalysisScreen() {
                 {params.photoUri && (
                     <View className="mb-6">
                         <Text className="text-lg font-poppins-semibold text-gray-900 mb-3">Wake-up Photo</Text>
-                        <View className="bg-white rounded-2xl p-4 shadow-sm">
+                        <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4">
                             <Image source={{ uri: params.photoUri as string }} className="w-full h-48 rounded-xl" resizeMode="cover" />
                         </View>
                     </View>
@@ -124,7 +124,7 @@ export default function SleepAnalysisScreen() {
 
                 {/* Sleep Duration */}
                 <View className="mb-6">
-                    <View className="bg-white rounded-2xl p-4 shadow-sm">
+                    <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4">
                         <Text className="text-lg font-poppins-semibold text-gray-900 mb-2">Sleep Duration</Text>
                         <Text className="text-3xl font-poppins-bold text-blue-600">{formatSleepDuration(parseInt(params.sleepDuration as string) || 0)}</Text>
                     </View>
@@ -143,7 +143,7 @@ export default function SleepAnalysisScreen() {
                     ) : (
                         <>
                             {/* Sleep Quality Score */}
-                            <View className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                            <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4 shadow-sm mb-4">
                                 <Text className="text-base font-poppins-semibold text-gray-900 mb-2">Sleep Quality Score</Text>
                                 <View className="flex-row items-center justify-between">
                                     <Text className={`text-4xl font-poppins-bold ${getScoreColor(analysisResult.sleepQualityScore)}`}>{analysisResult.sleepQualityScore}%</Text>
@@ -152,13 +152,13 @@ export default function SleepAnalysisScreen() {
                             </View>
 
                             {/* Fatigue Level */}
-                            <View className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                            <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4 shadow-sm mb-4">
                                 <Text className="text-base font-poppins-semibold text-gray-900 mb-2">Fatigue Level</Text>
                                 <Text className="text-lg font-poppins text-gray-700">{analysisResult.fatigueLevel}</Text>
                             </View>
 
                             {/* AI Insights */}
-                            <View className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                            <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4 shadow-sm mb-4">
                                 <Text className="text-base font-poppins-semibold text-gray-900 mb-3">AI Insights</Text>
                                 <View className="space-y-3">
                                     <View>
@@ -177,7 +177,7 @@ export default function SleepAnalysisScreen() {
                             </View>
 
                             {/* Recommendations */}
-                            <View className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+                            <View className="bg-white border-[1.5px] border-[#114438] rounded-2xl p-4 shadow-sm mb-6">
                                 <Text className="text-base font-poppins-semibold text-gray-900 mb-3">Recommendations</Text>
                                 {analysisResult.recommendations.map((recommendation, index) => (
                                     <View key={index} className="flex-row items-start mb-2">
@@ -193,10 +193,10 @@ export default function SleepAnalysisScreen() {
                 {/* Action Buttons */}
                 <View className="mb-8">
                     {!analysisResult.isProcessing && (
-                        <View className="space-y-3">
+                        <View className="space-y-3 gap-5">
                             <TouchableOpacity
                                 onPress={handleDone}
-                                className="bg-blue-600 rounded-full py-4 px-8 items-center"
+                                className="bg-[#8EAE9D] rounded-full py-4 px-8 items-center"
                                 style={{
                                     shadowColor: "#000",
                                     shadowOffset: { width: 0, height: 2 },
@@ -208,7 +208,7 @@ export default function SleepAnalysisScreen() {
                                 <Text className="text-white font-poppins-semibold text-lg">Done</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity onPress={handleRetakePhoto} className="border border-gray-300 rounded-full py-4 px-8 items-center">
+                            <TouchableOpacity onPress={handleRetakePhoto} className="bg-white border-2 border-[#8EAE9D] rounded-full py-4 px-8 items-center">
                                 <Text className="text-gray-700 font-poppins-semibold text-lg">Retake Photo</Text>
                             </TouchableOpacity>
                         </View>

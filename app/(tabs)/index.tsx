@@ -372,7 +372,7 @@ export default function ProfileScreen() {
     };
 
     return (
-        <ScrollView className="flex-1 bg-white" showsVerticalScrollIndicator={false}>
+        <ScrollView className="flex-1 bg-[#F5FBFC]" showsVerticalScrollIndicator={false}>
             {/* Header */}
             <View className="px-6 pt-12 pb-6">
                 <View className="flex-row items-center justify-between">

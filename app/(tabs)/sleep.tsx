@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Path, Svg, Text as SvgText } from "react-native-svg";
+import { Rect, Svg, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -15,7 +15,7 @@ export default function SleepScreen() {
         router.push("/sleep-start");
     };
 
-    // Sample data
+    // Sample data - updated to match dashboard structure
     const sleepData = {
         current: 51,
         target: 56,
@@ -24,6 +24,9 @@ export default function SleepScreen() {
         bedTime: "10:00 PM",
         wakeTime: "05:00 AM",
         periods: ["1 day", "1 week", "1 month", "1 year", "all time"],
+        weeklyData: [4, 6, 5, 7, 8, 5, 6], // hours per day - matching the design
+        labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+        highlightIndex: 4, // Friday is highlighted
     };
 
     const musicData = {
@@ -32,106 +35,89 @@ export default function SleepScreen() {
         albumArt: "https://via.placeholder.com/50x50/8B4513/FFFFFF?text=🎵",
     };
 
-    // Simple line chart component
-    const SleepChart = () => {
-        const chartWidth = screenWidth - 80;
-        const chartHeight = 200;
-        const paddingLeft = 30;
-        const paddingTop = 20;
+    // Custom Sleep Bar Chart Component (exact copy from dashboard)
+    const SleepBarChart = ({ data, width, height }: { data: any; width: number; height: number }) => {
+        const chartHeight = height - 50; // Leave space for labels
+        const barWidth = (width - 60) / data.labels.length; // 60 for margins
 
-        // Create a smooth wave curve that resembles the sleep pattern in the image
-        const createSleepCurve = () => {
-            const width = chartWidth - paddingLeft - 20;
-            const height = chartHeight - paddingTop - 60;
+        // Dynamic calculation for grid lines based on data
+        const maxDataValue = Math.max(...data.weeklyData);
 
-            // Points for a natural sleep wave pattern similar to the image
-            const points = [
-                { x: paddingLeft, y: paddingTop + height * 0.2 }, // Start high (around 8h area)
-                { x: paddingLeft + width * 0.2, y: paddingTop + height * 0.5 }, // Dip down (around 5h area)
-                { x: paddingLeft + width * 0.4, y: paddingTop + height * 0.35 }, // Rise up (around 6h area)
-                { x: paddingLeft + width * 0.6, y: paddingTop + height * 0.6 }, // Another dip (around 4h area)
-                { x: paddingLeft + width * 0.8, y: paddingTop + height * 0.25 }, // Rise again (around 7h area)
-                { x: paddingLeft + width * 0.95, y: paddingTop + height * 0.45 }, // End moderate (around 5h area)
-            ];
+        // Calculate appropriate grid intervals
+        const maxValue = Math.ceil(maxDataValue * 1.1); // Add 10% padding
 
-            // Create smooth curve using smooth bezier curves
-            let pathData = `M ${points[0].x} ${points[0].y}`;
-
-            for (let i = 1; i < points.length; i++) {
-                const prevPoint = points[i - 1];
-                const currentPoint = points[i];
-
-                // Create smooth curves between points
-                const cp1x = prevPoint.x + (currentPoint.x - prevPoint.x) * 0.5;
-                const cp1y = prevPoint.y;
-                const cp2x = currentPoint.x - (currentPoint.x - prevPoint.x) * 0.5;
-                const cp2y = currentPoint.y;
-
-                pathData += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${currentPoint.x} ${currentPoint.y}`;
+        // Generate grid values dynamically
+        const gridValues = [];
+        if (maxValue <= 4) {
+            gridValues.push(0, 1, 2, 3, 4);
+        } else if (maxValue <= 8) {
+            gridValues.push(0, 2, 4, 6, 8);
+        } else if (maxValue <= 12) {
+            gridValues.push(0, 3, 6, 9, 12);
+        } else {
+            // For larger values, use step of maxValue/4
+            const step = Math.ceil(maxValue / 4);
+            for (let i = 0; i <= maxValue; i += step) {
+                gridValues.push(i);
             }
+        }
 
-            return pathData;
-        };
+        // Find the index of the highest value for highlighting
+        const highestValue = Math.max(...data.weeklyData);
+        const highestValueIndex = data.weeklyData.indexOf(highestValue);
 
+        const paddingLeft = 30;
+        const paddingBottom = 30;
         return (
-            <View style={{ width: chartWidth, height: chartHeight, position: "relative" }}>
-                <Svg width={chartWidth} height={chartHeight}>
-                    {/* Y-axis labels */}
-                    <SvgText x="10" y="35" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        8h
-                    </SvgText>
-                    <SvgText x="10" y="85" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        5h
-                    </SvgText>
-                    <SvgText x="10" y="135" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        2h
-                    </SvgText>
-                    <SvgText x="10" y="175" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        0h
-                    </SvgText>
+            <View style={{ width, height }}>
+                <Svg width={width} height={height}>
+                    {/* Grid lines */}
+                    {gridValues.map((value) => {
+                        const y = chartHeight - (value / maxValue) * (chartHeight - paddingBottom) + 10;
+                        return (
+                            <React.Fragment key={value}>
+                                {/* Grid line */}
+                                <Rect x={paddingLeft} y={y} width={width - paddingLeft - 20} height="1" fill="#E5E7EB" opacity="0.3" />
+                                {/* Y-axis label */}
+                                <SvgText x={paddingLeft - 8} y={y + 4} fontSize="11" fill="#9CA3AF" textAnchor="end">
+                                    {value}h
+                                </SvgText>
+                            </React.Fragment>
+                        );
+                    })}
 
-                    {/* Sleep curve with dark green color like in the image */}
-                    <Path d={createSleepCurve()} stroke="#1F4E42" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Bars */}
+                    {data.weeklyData.map((value: number, index: number) => {
+                        const barHeight = (value / maxValue) * (chartHeight - paddingBottom);
+                        const x = paddingLeft + index * barWidth + barWidth * 0.25;
+                        const y = chartHeight - barHeight + 10;
+                        const isHighest = index === highestValueIndex; // Highlight the highest value
+
+                        return (
+                            <React.Fragment key={index}>
+                                {/* Bar */}
+                                <Rect x={x} y={y} width={barWidth * 0.5} height={barHeight} fill={isHighest ? "#2E5C4A" : "#A3D7D5"} />
+
+                                {/* Value label on top of bar if it's the highest */}
+                                {isHighest && (
+                                    <>
+                                        {/* Background bubble for highest value label */}
+                                        <Rect x={x - 8} y={y - 30} width={barWidth * 0.5 + 16} height="20" rx="10" ry="10" fill="#2C2C3E" />
+                                        {/* Highest value text */}
+                                        <SvgText x={x + barWidth * 0.2} y={y - 17} fontSize="11" fill="white" textAnchor="middle" fontWeight="600">
+                                            {value}h
+                                        </SvgText>
+                                    </>
+                                )}
+
+                                {/* Day label */}
+                                <SvgText x={x + barWidth * 0.25} y={chartHeight + 25} fontSize="11" fill="#6B7280" textAnchor="middle">
+                                    {data.labels[index]}
+                                </SvgText>
+                            </React.Fragment>
+                        );
+                    })}
                 </Svg>
-
-                {/* Sleep quality score - positioned like in the image */}
-                <View
-                    className="bg-[#C3DFE2] rounded-2xl px-4 py-3"
-                    style={{
-                        position: "absolute",
-                        bottom: 80,
-                        left: chartWidth * 0.35,
-                        transform: [{ translateX: -30 }],
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.1,
-                        shadowRadius: 4,
-                        elevation: 3,
-                        borderWidth: 1,
-                        borderColor: "#C3DFE2",
-                    }}
-                >
-                    <View className="flex-row items-center">
-                        <Text className="text-2xl font-poppins-bold text-gray-800 mr-2">78</Text>
-                        <Text className="text-orange-500 text-lg">🔥</Text>
-                    </View>
-                </View>
-
-                {/* Sleep hours info - positioned like in the image */}
-                <View
-                    className="absolute"
-                    style={{
-                        position: "absolute",
-                        bottom: 20,
-                        right: 40,
-                    }}
-                >
-                    <Text className="text-4xl font-poppins-bold text-gray-800 text-right">
-                        {sleepData.current}/{sleepData.target}
-                    </Text>
-                    <Text className="text-lg font-poppins text-gray-600 text-right">hours</Text>
-                    <Text className="text-sm font-poppins text-gray-500 text-right">{sleepData.status}</Text>
-                </View>
             </View>
         );
     };
@@ -143,35 +129,35 @@ export default function SleepScreen() {
                 <Text className="text-3xl font-poppins-bold text-gray-900 text-center mb-6">Sleep Quality</Text>
 
                 {/* Period Selector */}
-                <View className="bg-[#C3DFE2] rounded-full p-1 mb-6 border border-[#114438]">
-                    <View className="flex-row">
+                <View className="bg-[#C3DFE2] rounded-full p-2 mb-6 border border-[#114438]">
+                    <View className="flex-row justify-between">
                         {sleepData.periods.map((period) => (
-                            <TouchableOpacity
-                                key={period}
-                                onPress={() => setSelectedPeriod(period)}
-                                className={`flex-1 py-2 px-3 rounded-full ${selectedPeriod === period ? "bg-white shadow-sm border-2 border-[#114438]" : "bg-transparent"}`}
-                            >
+                            <TouchableOpacity key={period} onPress={() => setSelectedPeriod(period)} className={`px-4 py-2 rounded-full ${selectedPeriod === period ? "bg-white border-2 border-[#114438]" : ""}`}>
                                 <Text className={`text-center text-sm font-poppins-medium ${selectedPeriod === period ? "text-gray-900" : "text-gray-600"}`}>{period}</Text>
                             </TouchableOpacity>
                         ))}
                     </View>
                 </View>
 
-                {/* Sleep Chart */}
-                <View className="bg-[#B0D0D3] rounded-3xl p-6 mb-6 relative">
-                    <SleepChart />
+                {/* Sleep Chart (copied exactly from dashboard) */}
+                <View className="bg-white border-[1.5px] border-[#C3DFE2] rounded-3xl p-6 mb-6">
+                    <View className="mb-4">
+                        <View className="flex-row items-baseline">
+                            <Text className="text-3xl font-poppins-bold text-gray-800">{sleepData.current}</Text>
+                            <Text className="text-lg font-poppins-bold text-gray-800">/{sleepData.target}</Text>
+                            <Text className="text-sm font-poppins text-gray-600 ml-2">hours</Text>
+                        </View>
+                        <Text className="text-sm font-poppins text-gray-500">{sleepData.status}</Text>
+                    </View>
 
-                    {/* Share button - positioned in top right corner */}
-                    <TouchableOpacity
-                        className="absolute top-4 right-4 w-8 h-8 items-center justify-center"
-                        style={{
-                            position: "absolute",
-                            top: 16,
-                            right: 16,
+                    <SleepBarChart
+                        data={{
+                            labels: sleepData.labels,
+                            weeklyData: sleepData.weeklyData,
                         }}
-                    >
-                        <Text className="text-gray-600 text-xl">↗</Text>
-                    </TouchableOpacity>
+                        width={screenWidth - 60}
+                        height={200}
+                    />
                 </View>
             </View>
 
