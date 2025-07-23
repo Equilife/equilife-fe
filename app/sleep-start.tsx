@@ -179,7 +179,7 @@ export default function SleepStartScreen() {
     }, []);
 
     return (
-        <View className="flex-1 bg-gray-50" style={{ paddingTop: insets.top }}>
+        <View className="flex-1 bg-[#F5FBFC]" style={{ paddingTop: insets.top }}>
             {/* Header */}
             <View className="px-6 py-4 flex-row items-center justify-between">
                 <TouchableOpacity onPress={handleGoBack} className="p-2">

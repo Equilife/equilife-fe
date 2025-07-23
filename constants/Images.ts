@@ -90,6 +90,13 @@ export const Exercise = {
     endWorkout: require("@/assets/images/exercise/endWorkout.png"),
 }
 
+export const Food = {
+    editIcon: require("@/assets/images/food/editIcon.png"),
+    camera: require("@/assets/images/food/camera.png"),
+    eatImage: require("@/assets/images/food/eatImage.png"),
+    spoon: require("@/assets/images/food/spoon.png"),
+}
+
 export const Images = {
     // Add other images here
 };

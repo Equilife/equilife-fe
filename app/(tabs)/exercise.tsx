@@ -1,15 +1,49 @@
-import { Exercise } from "@/constants/Images";
+import { Exercise, FormIcon } from "@/constants/Images";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Path, Svg, Text as SvgText } from "react-native-svg";
+import { Circle, Path, Rect, Svg, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function ExerciseScreen() {
     const insets = useSafeAreaInsets();
     const [selectedPeriod, setSelectedPeriod] = useState("1 year");
+    const [showWorkoutConfirmation, setShowWorkoutConfirmation] = useState(false);
+    const [hasWorkedOutToday, setHasWorkedOutToday] = useState(false);
+    const [workoutConfirmed, setWorkoutConfirmed] = useState(false);
+
+    // Check if we should show workout confirmation
+    useEffect(() => {
+        // For demo, show confirmation immediately
+        setShowWorkoutConfirmation(true);
+
+        // In production, you would check the actual schedule time:
+        // const checkSchedule = () => {
+        //     const isScheduleTime = checkExerciseScheduleTime();
+        //     if ((isScheduleTime || isPastScheduleTime()) && !workoutConfirmed) {
+        //         setShowWorkoutConfirmation(true);
+        //     }
+        // };
+        //
+        // checkSchedule();
+        // const interval = setInterval(checkSchedule, 60000);
+        // return () => clearInterval(interval);
+    }, []); // Empty dependency array to run only once
+
+    const handleWorkoutConfirmation = (worked: boolean) => {
+        setHasWorkedOutToday(worked);
+        setWorkoutConfirmed(true);
+        setShowWorkoutConfirmation(false);
+
+        // Simple confirmation without navigation
+        if (worked) {
+            Alert.alert("Great job! 💪", "Keep up the excellent work with your exercise routine!");
+        } else {
+            Alert.alert("No worries! 😊", "Remember, consistency is key. You can still work out later!");
+        }
+    };
 
     const handleStartExercise = () => {
         router.push("/exercise-start");
@@ -19,7 +53,11 @@ export default function ExerciseScreen() {
         router.push("/exercise-schedule");
     };
 
-    // Sample exercise data
+    const handleViewSequence = () => {
+        router.push("/exercise-sequence");
+    };
+
+    // Sample exercise data - updated to match dashboard structure
     const exerciseData = {
         current: 345,
         target: 150,
@@ -30,119 +68,98 @@ export default function ExerciseScreen() {
             end: "05:00 AM",
         },
         periods: ["1 day", "1 week", "1 month", "1 year", "all time"],
-        weeklyData: [
-            { day: "S", date: "13", isActive: false },
-            { day: "M", date: "14", isActive: false },
-            { day: "T", date: "15", isActive: false },
-            { day: "W", date: "16", isActive: false },
-            { day: "T", date: "17", isActive: true },
-            { day: "F", date: "18", isActive: false },
-            { day: "S", date: "19", isActive: false },
-        ],
+        weeklyData: [200, 250, 150, 100, 50, 180, 200],
+        labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
     };
 
-    // Exercise chart component
-    const ExerciseChart = () => {
-        const chartWidth = screenWidth - 80;
-        const chartHeight = 200;
+    // Custom Exercise Line Chart Component (same as dashboard)
+    const ExerciseLineChart = ({ data, width, height }: { data: any; width: number; height: number }) => {
+        const chartHeight = height - 50; // Leave space for labels
         const paddingLeft = 30;
-        const paddingTop = 20;
+        const paddingBottom = 30;
 
-        // Create exercise curve similar to the image
-        const createExerciseCurve = () => {
-            const width = chartWidth - paddingLeft - 20;
-            const height = chartHeight - paddingTop - 60;
+        // Dynamic calculation for max value
+        const maxDataValue = Math.max(...data.weeklyData);
+        const maxValue = Math.ceil(maxDataValue / 50) * 50; // Round to nearest 50
 
-            // Points for exercise pattern - higher activity in middle, lower at ends
-            const points = [
-                { x: paddingLeft, y: paddingTop + height * 0.4 }, // Start moderate
-                { x: paddingLeft + width * 0.15, y: paddingTop + height * 0.2 }, // Rise up
-                { x: paddingLeft + width * 0.3, y: paddingTop + height * 0.15 }, // Peak
-                { x: paddingLeft + width * 0.45, y: paddingTop + height * 0.35 }, // Dip
-                { x: paddingLeft + width * 0.6, y: paddingTop + height * 0.25 }, // Rise again
-                { x: paddingLeft + width * 0.75, y: paddingTop + height * 0.1 }, // Another peak
-                { x: paddingLeft + width * 0.95, y: paddingTop + height * 0.3 }, // End moderate
-            ];
+        // Generate grid values dynamically (0, 100, 200, 300)
+        const gridValues = [];
+        for (let i = 0; i <= maxValue; i += 100) {
+            gridValues.push(i);
+        }
 
-            // Create smooth curve
-            let pathData = `M ${points[0].x} ${points[0].y}`;
+        // Find the highest value for highlighting
+        const highestValue = Math.max(...data.weeklyData);
+        const highestValueIndex = data.weeklyData.indexOf(highestValue);
 
-            for (let i = 1; i < points.length; i++) {
-                const prevPoint = points[i - 1];
-                const currentPoint = points[i];
+        // Calculate points for the line
+        const pointWidth = (width - 60) / (data.labels.length - 1);
+        const points = data.weeklyData.map((value: number, index: number) => {
+            const x = paddingLeft + index * pointWidth;
+            const y = chartHeight - (value / maxValue) * (chartHeight - paddingBottom) + 10;
+            return { x, y, value, index };
+        });
 
-                const cp1x = prevPoint.x + (currentPoint.x - prevPoint.x) * 0.5;
-                const cp1y = prevPoint.y;
-                const cp2x = currentPoint.x - (currentPoint.x - prevPoint.x) * 0.5;
-                const cp2y = currentPoint.y;
-
-                pathData += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${currentPoint.x} ${currentPoint.y}`;
-            }
-
-            return pathData;
-        };
+        // Create path string for the line
+        const pathData = points
+            .map((point: any, index: number) => {
+                return index === 0 ? `M ${point.x} ${point.y}` : `L ${point.x} ${point.y}`;
+            })
+            .join(" ");
 
         return (
-            <View style={{ width: chartWidth, height: chartHeight, position: "relative" }}>
-                <Svg width={chartWidth} height={chartHeight}>
-                    {/* Y-axis labels */}
-                    <SvgText x="10" y="35" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        300
-                    </SvgText>
-                    <SvgText x="10" y="85" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        200
-                    </SvgText>
-                    <SvgText x="10" y="135" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        100
-                    </SvgText>
-                    <SvgText x="10" y="175" fontSize="14" fill="#6B7280" fontFamily="Poppins_400Regular">
-                        0
-                    </SvgText>
+            <View style={{ width, height }}>
+                <Svg width={width} height={height}>
+                    {/* Grid lines */}
+                    {gridValues.map((value) => {
+                        const y = chartHeight - (value / maxValue) * (chartHeight - paddingBottom) + 10;
+                        return (
+                            <React.Fragment key={value}>
+                                {/* Grid line */}
+                                <Rect x={paddingLeft} y={y} width={width - paddingLeft - 20} height="1" fill="#E5E7EB" opacity="0.3" />
+                                {/* Y-axis label */}
+                                <SvgText x={paddingLeft - 8} y={y + 4} fontSize="11" fill="#9CA3AF" textAnchor="end">
+                                    {value}
+                                </SvgText>
+                            </React.Fragment>
+                        );
+                    })}
 
-                    {/* Exercise curve with dark green color */}
-                    <Path d={createExerciseCurve()} stroke="#1F4E42" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Line path */}
+                    <Path d={pathData} stroke="#2E5C4A" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+
+                    {/* Data points (dots) */}
+                    {points.map((point: any, index: number) => {
+                        const isHighest = index === highestValueIndex;
+                        return (
+                            <React.Fragment key={index}>
+                                {/* Outer circle (border) */}
+                                <Circle cx={point.x} cy={point.y} r="8" fill="#2E5C4A" />
+                                {/* Inner circle (white) */}
+                                <Circle cx={point.x} cy={point.y} r="5" fill="white" />
+                                {/* Inner dot */}
+                                <Circle cx={point.x} cy={point.y} r="3" fill="#2E5C4A" />
+
+                                {/* Value label on top if it's the highest */}
+                                {isHighest && (
+                                    <>
+                                        {/* Background bubble for highest value label */}
+                                        <Rect x={point.x - 20} y={point.y - 35} width="40" height="20" rx="10" ry="10" fill="#2C2C3E" />
+                                        {/* Highest value text */}
+                                        <SvgText x={point.x} y={point.y - 22} fontSize="11" fill="white" textAnchor="middle" fontWeight="600">
+                                            {point.value}
+                                        </SvgText>
+                                    </>
+                                )}
+
+                                {/* Day label */}
+                                <SvgText x={point.x} y={chartHeight + 25} fontSize="11" fill="#6B7280" textAnchor="middle">
+                                    {data.labels[index]}
+                                </SvgText>
+                            </React.Fragment>
+                        );
+                    })}
                 </Svg>
-
-                {/* Exercise quality score and stats */}
-                <View
-                    className="bg-[#C3DFE2] rounded-2xl px-4 py-3"
-                    style={{
-                        position: "absolute",
-                        bottom: 30,
-                        left: 40,
-                    }}
-                >
-                    <View className="flex-row items-center">
-                        <Text className="text-2xl font-poppins-bold text-[#1F4E42] mr-1">{exerciseData.quality}</Text>
-                        <Text className="text-lg">🔥</Text>
-                    </View>
-                </View>
-
-                {/* Exercise minutes display */}
-                <View
-                    className="items-end"
-                    style={{
-                        position: "absolute",
-                        bottom: 30,
-                        right: 40,
-                    }}
-                >
-                    <Text className="text-2xl font-poppins-bold text-gray-900">
-                        {exerciseData.current}/{exerciseData.target} min
-                    </Text>
-                    <Text className="text-sm font-poppins text-gray-600">{exerciseData.status}</Text>
-                </View>
-
-                {/* Edit icon */}
-                <View
-                    style={{
-                        position: "absolute",
-                        top: 10,
-                        right: 10,
-                    }}
-                >
-                    <Text className="text-gray-400 text-lg">✏️</Text>
-                </View>
             </View>
         );
     };
@@ -151,10 +168,17 @@ export default function ExerciseScreen() {
         <ScrollView className="flex-1 bg-[#F5FBFC]" style={{ paddingTop: insets.top }}>
             {/* Header */}
             <View className="px-6 py-6">
-                <Text className="text-3xl font-poppins-bold text-gray-900 text-center mb-8">Exercise Tracker</Text>
+                <View className="flex-row items-center justify-between mb-8">
+                    <TouchableOpacity onPress={handleViewSequence} className="p-2">
+                        {/* <Text className="text-2xl">📅</Text> */}
+                        <Image source={FormIcon.date} className="w-7 h-7" resizeMode="contain" />
+                    </TouchableOpacity>
+                    <Text className="text-3xl font-poppins-bold text-gray-900">Exercise Tracker</Text>
+                    <View className="w-10" />
+                </View>
 
                 {/* Period Selection */}
-                <View className="bg-[#B0D0D3] rounded-full p-2 mb-6">
+                <View className="bg-[#C3DFE2] rounded-full p-2 mb-6 border border-[#114438]">
                     <View className="flex-row justify-between">
                         {exerciseData.periods.map((period) => (
                             <TouchableOpacity key={period} onPress={() => setSelectedPeriod(period)} className={`px-4 py-2 rounded-full ${selectedPeriod === period ? "bg-white border-2 border-[#1F4E42]" : ""}`}>
@@ -164,9 +188,25 @@ export default function ExerciseScreen() {
                     </View>
                 </View>
 
-                {/* Exercise Chart */}
-                <View className="bg-[#B0D0D3] rounded-3xl p-4 mb-6">
-                    <ExerciseChart />
+                {/* Exercise Chart (same format as sleep) */}
+                <View className="bg-white border-[1.5px] border-[#C3DFE2] rounded-3xl p-6 mb-6">
+                    <View className="mb-4">
+                        <View className="flex-row items-baseline">
+                            <Text className="text-3xl font-poppins-bold text-gray-800">{exerciseData.current}</Text>
+                            <Text className="text-lg font-poppins-bold text-gray-800">/{exerciseData.target}</Text>
+                            <Text className="text-sm font-poppins text-gray-600 ml-2">minutes</Text>
+                        </View>
+                        <Text className="text-sm font-poppins text-gray-500">{exerciseData.status}</Text>
+                    </View>
+
+                    <ExerciseLineChart
+                        data={{
+                            labels: exerciseData.labels,
+                            weeklyData: exerciseData.weeklyData,
+                        }}
+                        width={screenWidth - 60}
+                        height={200}
+                    />
                 </View>
 
                 {/* Weekly Calendar */}
@@ -181,14 +221,6 @@ export default function ExerciseScreen() {
                     ))}
                 </View> */}
 
-                {/* Edit icon for calendar */}
-                <View className="items-end mb-6">
-                    <TouchableOpacity className="p-2">
-                        {/* <Text className="text-gray-400 text-lg">✏️</Text> */}
-                        <Image source={Exercise.editIcon} className="w-6 h-6" resizeMode="contain" />
-                    </TouchableOpacity>
-                </View>
-
                 {/* Exercise Schedule */}
                 <View className="bg-white rounded-3xl p-6 mb-6 border-2 border-[#1F4E42]">
                     <View className="flex-row items-center justify-between mb-2">
@@ -197,11 +229,46 @@ export default function ExerciseScreen() {
                             <Image source={Exercise.editIcon} className="w-6 h-6" resizeMode="contain" />
                         </TouchableOpacity>
                     </View>
-                    <View className="flex-row items-center justify-center mt-4">
+
+                    <View className="flex-row items-center justify-center mt-4 mb-4">
                         <Text className="text-lg font-poppins text-gray-900">{exerciseData.schedule.start}</Text>
                         <Text className="text-lg font-poppins text-gray-900 mx-4">—</Text>
                         <Text className="text-lg font-poppins text-gray-900">{exerciseData.schedule.end}</Text>
                     </View>
+
+                    {/* Workout Confirmation Section */}
+                    {showWorkoutConfirmation && (
+                        <View className="border-t border-gray-200 pt-4">
+                            <Text className="text-lg font-poppins-semibold text-gray-900 text-center mb-4">Worked out today?</Text>
+                            <View className="flex-row justify-center space-x-4">
+                                <TouchableOpacity onPress={() => handleWorkoutConfirmation(false)} className="bg-red-500 px-6 py-3 rounded-full flex-1 mr-2">
+                                    <Text className="text-white font-poppins-semibold text-center">Not yet</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => handleWorkoutConfirmation(true)} className="bg-[#8EAE9D] px-6 py-3 rounded-full flex-1 ml-2">
+                                    <Text className="text-white font-poppins-semibold text-center">Yep!</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+
+                    {/* Status indicator when confirmed */}
+                    {workoutConfirmed && (
+                        <View className="border-t border-gray-200 pt-4">
+                            <View className="flex-row items-center justify-center">
+                                <Text className={`font-poppins-semibold text-lg ${hasWorkedOutToday ? "text-green-600" : "text-orange-600"}`}>{hasWorkedOutToday ? "✅ Workout completed today!" : "⏰ Workout pending today"}</Text>
+                            </View>
+                            {/* Reset button for demo purposes */}
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setWorkoutConfirmed(false);
+                                    setShowWorkoutConfirmation(true);
+                                }}
+                                className="mt-2"
+                            >
+                                <Text className="text-blue-500 text-center font-poppins text-sm">Reset for demo</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
 
                 {/* Feedback & Suggestion */}
