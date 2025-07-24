@@ -1,7 +1,8 @@
+import { Food } from "@/constants/Images";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface MealSchedule {
@@ -103,21 +104,21 @@ export default function NutritionScheduleScreen() {
             {/* Main Content */}
             <View className="flex-1 px-6">
                 {/* Illustration Container */}
-                <View className="items-center mt-4 mb-8">
-                    <View className="w-72 h-48 bg-gray-200 rounded-3xl items-center justify-center">
+                <View className="items-center my-4">
+                    <View className="w-72 h-48 rounded-3xl items-center justify-center">
                         {/* Placeholder for illustration - you can replace this with actual image */}
-                        <Text className="text-gray-400 text-center font-poppins">Eating Illustration{"\n"}(Will be added later)</Text>
+                        <Image source={Food.eatImage} className="w-full h-full" resizeMode="contain" />
                     </View>
                 </View>
 
                 {/* Title and Description */}
-                <View className="mb-4">
+                <View className="mb-2">
                     <Text className="text-2xl font-poppins-bold text-gray-900 text-center mb-3">Set Your Eats Goal</Text>
                     <Text className="text-base font-poppins text-gray-500 text-center leading-6">With a goal, we recommend you set optimal{"\n"}time and wake up alarm</Text>
                 </View>
 
                 {/* Breakfast Time Pickers */}
-                <View className="mb-4">
+                <View className="mb-2">
                     <Text className="text-lg font-poppins-semibold text-gray-900 mb-3">Breakfast</Text>
                     <View className="flex-row justify-between mb-4">
                         {/* Breakfast Start */}
@@ -141,7 +142,7 @@ export default function NutritionScheduleScreen() {
                 </View>
 
                 {/* Lunch Time Pickers */}
-                <View className="mb-4">
+                <View className="mb-2">
                     <Text className="text-lg font-poppins-semibold text-gray-900 mb-3">Lunch</Text>
                     <View className="flex-row justify-between mb-4">
                         {/* Lunch Start */}

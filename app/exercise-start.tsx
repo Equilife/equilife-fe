@@ -1,6 +1,7 @@
+import { Exercise } from "@/constants/Images";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExerciseStartScreen() {
@@ -102,8 +103,8 @@ export default function ExerciseStartScreen() {
                                     {/* Center Circle - White */}
                                     <View className="w-48 h-48 rounded-full bg-white items-center justify-center">
                                         {/* Running Person Illustration Placeholder */}
-                                        <View className="w-32 h-32 items-center justify-center">
-                                            <Text className="text-6xl">🏃‍♂️</Text>
+                                        <View className="w-full h-full items-center justify-center">
+                                            <Image source={Exercise.workoutImage} className="w-full h-full" resizeMode="contain" />
                                         </View>
                                     </View>
                                 </View>
@@ -137,7 +138,8 @@ export default function ExerciseStartScreen() {
                         }}
                     >
                         <View className="flex-row items-center justify-center">
-                            <View className="w-4 h-4 rounded-full bg-white mr-3" />
+                            {/* <View className="w-4 h-4 rounded-full bg-white mr-3" /> */}
+                            <Image source={Exercise.endWorkout} className="w-7 h-7 mr-4 -ml-2" resizeMode="contain" />
                             <Text className="text-lg font-poppins-semibold text-white">Stop Workout</Text>
                         </View>
                     </TouchableOpacity>

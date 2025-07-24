@@ -1,7 +1,8 @@
+import { Sleep } from "@/constants/Images";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SleepStartScreen() {
@@ -203,13 +204,10 @@ export default function SleepStartScreen() {
                 </View>
 
                 {/* Cat Image Placeholder */}
-                <View className="mb-20">
-                    <View className="w-80 h-80 bg-orange-100 rounded-full items-center justify-center mb-8 mx-auto" style={{ backgroundColor: "#FEF3C7" }}>
+                <View className="mb-16">
+                    <View className="w-80 h-80 items-center justify-center mx-auto">
                         {/* Placeholder for cat sleeping image - you can replace this with actual image */}
-                        <View className="items-center">
-                            <Text className="text-8xl mb-2">😴</Text>
-                            <Text className="text-gray-500 font-poppins text-sm text-center">Replace with cat{"\n"}sleeping image</Text>
-                        </View>
+                        <Image source={Sleep.catSleep} className="w-full h-full" resizeMode="contain" />
                     </View>
                 </View>
 

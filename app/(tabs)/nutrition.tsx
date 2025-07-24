@@ -293,7 +293,7 @@ export default function NutritionScreen() {
                 </View>
 
                 {/* Nutrition Statistics */}
-                <View className="bg-white rounded-3xl p-6 mb-6 border-2 border-[#1F4E42]">
+                {/* <View className="bg-white rounded-3xl p-6 mb-6 border-2 border-[#1F4E42]">
                     <Text className="text-xl font-poppins-bold text-gray-900 mb-4">Today&apos;s Nutrition</Text>
 
                     <View className="flex-row justify-between items-center mb-4">
@@ -310,9 +310,9 @@ export default function NutritionScreen() {
                             <Text className="text-sm font-poppins text-gray-600 mr-2">Hydration Quality:</Text>
                             <Text className="text-2xl font-poppins-bold text-orange-500">{nutritionData.quality}</Text>
                             <Text className="text-orange-500 text-lg ml-1">💧</Text>
-                        </View>
+                        </View>a
                     </View>
-                </View>
+                </View> */}
 
                 {/* Feedback & Suggestion */}
                 <View className="bg-white rounded-3xl p-6 mb-6 border-2 border-[#1F4E42]">
