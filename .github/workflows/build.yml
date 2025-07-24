@@ -20,8 +20,10 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
+    - name: Make gradlew executable
+      run: chmod +x android/gradlew
     - name: Build APK
-      run: cd android && ./gradlew assembleRelease
+      run: cd android && ./gradlew assembleRelease --no-daemon --stacktrace
     - uses: actions/upload-artifact@v4
       with:
         name: app-release-apk
