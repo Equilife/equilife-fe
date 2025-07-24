@@ -3,8 +3,8 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function SummaryScreen() {
     const handleContinue = () => {
-        // Navigate to main app or home screen
-        router.replace("../../home");
+        // Navigate directly to dashboard
+        router.replace("../../(tabs)");
     };
 
     const handleBack = () => {

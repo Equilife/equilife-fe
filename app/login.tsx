@@ -11,8 +11,8 @@ export default function LoginScreen() {
 
     const handleLogin = () => {
         // TODO: Implement login logic
-        // For now, just go to home
-        router.replace("./home");
+        // Go directly to dashboard
+        router.replace("./(tabs)");
     };
 
     const handleGoogleLogin = () => {
